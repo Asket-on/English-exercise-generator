@@ -1,17 +1,31 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import time
 import ast
 import random
-from myclass import MyClass
+from io import StringIO
+from myclass import EnglishAssignmentGenerator
 
-#не разобрался еще как случайные выпадения в стримлите корректно делать, 
+#не разобрался еще как случайные выпадения заданий в стримлите корректно делать, 
 #в каждом новом цикле сбрасываются предыдущие задания. Поэтому зафиксировал рандом
 random.seed(123)
 
-# Использование класса
-obj = MyClass()
-obj.method1()
+uploaded_file = st.file_uploader("Choose a file")
+if uploaded_file is not None:
+    # To convert to a string based IO:
+    stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
+    #st.write(stringio)
+    # To read file as string:
+    string_data = stringio.read()
+    #st.write(string_data)
+
+start_time = time.time()
+@st.cache_data
+def transform(string_data):
+    obj = EnglishAssignmentGenerator()
+    df = obj.df_creation(string_data)
+    return df
 
 
 # Функция для преобразования строки в список
@@ -40,7 +54,7 @@ def shuffle_string(text):
 
 st.header('Генератор упражнений по английскому')
 #in developing
-txt = st.text_area('Вставьте текст для создания упражнения')
+#txt = st.text_area('Вставьте текст для создания упражнения')
 
 '---'
 # Add a checkbox to the sidebar:
@@ -70,11 +84,17 @@ sentences_per_page  = st.sidebar.slider(
     'Select count sentences',
     5, 50, 10)
 
-df = pd.read_csv('df_english.csv')
+df = transform(string_data)
+#st.write(df.info())
+#st.write(type(df.iloc[2, 1]))
+#df['verb_tenses_options'] = df['verb_tenses_options'].apply(convert_to_list)
+#df['noun_chunks_options'] = df['noun_chunks_options'].apply(convert_to_list)
+#df['generate_sentences'] = df['generate_sentences'].apply(convert_to_list)
+end_time = time.time()
+running_time = round(end_time - start_time, 1)
 
-df['verb_tenses_options'] = df['verb_tenses_options'].apply(convert_to_list)
-df['noun_chunks_options'] = df['noun_chunks_options'].apply(convert_to_list)
-df['generate_sentences'] = df['generate_sentences'].apply(convert_to_list)
+# Display the running time in Streamlit
+st.write("Running time:", running_time, "seconds")
 
 num_pages = len(df) // sentences_per_page
 count_key = 0
@@ -88,7 +108,7 @@ end_index = (page + 1) * sentences_per_page
 
 # Получение упражнений для текущей страницы
 tasks = df[start_index:end_index]
-
+df
 # Вывод упражнений на текущей странице
 st.subheader(f"Page {page}")
 
@@ -108,7 +128,7 @@ for _, task in tasks.iterrows():
         'select_word_verbs' if len(verb_tenses_options) > 0 else None,
         'select_random_noun_phrase' if len(noun_chunks_options) > 0 else None,
         'select_sentences' if len(generate_sentences) > 0 else None,
-        'write_missing_word' if missing_word_answer != '0' else None
+        'write_missing_word' if missing_word_answer != "0" else None
     ]
 
     if selected_exercises[0] == 'All':
