@@ -1,0 +1,13 @@
+streamlit
+pandas
+numpy
+ast
+random
+re
+os
+time
+string
+spacy
+en_core_web_sm
+nltk.corpus
+pyinflect
