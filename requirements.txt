@@ -1,7 +1,6 @@
 streamlit
 pandas
 numpy
-re
 os
 time
 string
