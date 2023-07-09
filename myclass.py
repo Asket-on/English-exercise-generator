@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 import random
 import en_core_web_sm
-from nltk.corpus import wordnet
 from pyinflect import getAllInflections
 
 nlp = en_core_web_sm.load()
