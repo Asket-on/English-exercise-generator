@@ -1,7 +1,6 @@
 streamlit
 pandas
 numpy
-ast
 re
 os
 time
