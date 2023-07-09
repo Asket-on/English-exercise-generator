@@ -3,6 +3,7 @@ import pandas as pd
 import random
 import en_core_web_sm
 from pyinflect import getAllInflections
+from sentence_splitter import SentenceSplitter, split_text_into_sentences
 
 nlp = en_core_web_sm.load()
 
