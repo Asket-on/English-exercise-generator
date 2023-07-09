@@ -1,56 +1,47 @@
 import numpy as np
 import pandas as pd
-import re
-import os
 import random
-from time import time
-import string
-import spacy
 import en_core_web_sm
 from nltk.corpus import wordnet
-import pyinflect
+from pyinflect import getAllInflections
 
-class MyClass:
-    def method1(self):
-        # малая модель spacy
-        nlp = en_core_web_sm.load()
+nlp = en_core_web_sm.load()
 
-        file_path = r"C:\Users\m5612\YandexDisk\1_STUDIES\2_DS_YP_specialization\DS_YP_Project_masterskaya_NLP\Little_Red_Cap_ Jacob_and_Wilhelm_Grimm.txt"
-
-        df = pd.DataFrame(columns=['raw'])
-
-        with open(file_path, "r") as file:
-            while line := file.readline():
-                line = line.strip()
-                if len(line)>0:
-                    doc = nlp(line)
-                    for sent in doc.sents:
-                        df.loc[len(df), 'raw'] = sent.text
+class EnglishAssignmentGenerator:
+    def df_creation(self, file_contents):
+        # Split the text into sentences
+        splitter = SentenceSplitter(language='en')
+        sentences = splitter.split(text=file_contents)
+        sentences = list(filter(lambda x: x != '', sentences))
+        
+        # Create a DataFrame to store the sentences
+        df = pd.DataFrame({'raw': sentences})
 
         def select_word_verbs(sentence):
+            # Select a random verb from the sentence
             doc = nlp(sentence)
             verbs = [token for token in doc if token.pos_ == 'VERB']
             
             if not verbs:
-                # Если в предложении нет глаголов, возвращаем исходное предложение
+                # If there are no verbs in the sentence, return the original sentence
                 return pd.Series([sentence, [], ''])
             
-            # Случайный выбор глагола из списка
             verb = random.choice(verbs)
             
+            # Get the verb's tense options and create a sentence with a blank for the verb
             verb_tenses_answer = verb.text
-            verb_tenses_options = [verb._.inflect('VBP'), verb._.inflect('VBZ'), verb._.inflect('VBG'), verb._.inflect('VBD')]    
+            verb_tenses_options = [inflection for inflection in getAllInflections(verb.text, 'VB')]
             verb_tenses_sent = sentence.replace(verb.text, '_____')
 
             return pd.Series([verb_tenses_sent, verb_tenses_options, verb_tenses_answer])
 
-
         def select_random_noun_phrase(sent):
+            # Select a random noun phrase from the sentence
             doc = nlp(sent)
-            
             noun_chunks = [chunk for chunk in doc.noun_chunks]
             
             if len(noun_chunks) < 3:
+                # If there are less than 3 noun chunks, return None
                 return pd.Series([None, [], None])
             
             selected_noun = random.choice(noun_chunks)
@@ -60,13 +51,14 @@ class MyClass:
             noun_chunks_answer = selected_noun.root.dep_
             return pd.Series([noun_chunks_selected, noun_chunks_options, noun_chunks_answer])  
 
-
         def is_eligible_sentence(sentence):
+            # Check if a sentence is eligible for generating new sentences
             doc = nlp(sentence)
             main_words = [token for token in doc if token.pos_ in ['NOUN', 'VERB']]
             return len(main_words) > 2
 
         def generate_sentences(sentence):
+            # Generate new sentences by replacing words with their antonyms
             if not is_eligible_sentence(sentence):
                 return []
 
@@ -94,8 +86,8 @@ class MyClass:
             random.shuffle(result)
             return result
 
-
         def mising_word(sentence):
+            # Replace a random word in the sentence with a blank
             doc = nlp(sentence)
             words = [token.text for token in doc]
             
@@ -116,12 +108,13 @@ class MyClass:
             
             return pd.Series([missing_word_sentence, missing_word_answer])
 
-
+        # Apply the functions to create additional columns in the DataFrame
         result_select_word_verbs = df['raw'].apply(select_word_verbs)
         result_noun_chunks = df['raw'].apply(select_random_noun_phrase)
         result_generate_sent = df['raw'].apply(generate_sentences)
         result_mising_word = df['raw'].apply(mising_word)
 
+        # Assign the results to new columns in the DataFrame
         df['verb_tenses_sent'] = result_select_word_verbs[0]
         df['verb_tenses_options'] = result_select_word_verbs[1]
         df['verb_tenses_answer'] = result_select_word_verbs[2]
