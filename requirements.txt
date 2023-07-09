@@ -1,8 +1,6 @@
 streamlit
 pandas
 numpy
-time
-string
 spacy
 en_core_web_sm
 nltk.corpus
