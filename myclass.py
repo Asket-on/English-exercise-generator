@@ -129,3 +129,5 @@ class EnglishAssignmentGenerator:
         df['missing_word_answer'] = result_mising_word[1]
 
         df.to_csv('df_english.csv', index=False)
+
+        return df
