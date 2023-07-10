@@ -138,7 +138,7 @@ def df_creation(file_contents):
     df['missing_word_answer'] = result_mising_word[1]
 
     df.to_csv('df_english.csv', index=False)
-    result_select_word_verbs
+    
     return df
 
 
@@ -156,7 +156,7 @@ if uploaded_file is not None:
     #st.write(stringio)
     # To read file as string:
     string_data = stringio.read()
-    st.write('string_data', string_data)
+    #st.write('string_data', string_data)
 
 
 start_time = time.time()
@@ -250,7 +250,7 @@ tasks = df[start_index:end_index]
 
 # Вывод упражнений на текущей странице
 st.subheader(f"Page {page}")
-
+df.head()
 for _, task in tasks.iterrows():    
     
     verb_tenses_options = task['verb_tenses_options']
