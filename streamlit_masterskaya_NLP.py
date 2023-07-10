@@ -138,7 +138,7 @@ def df_creation(file_contents):
     df['missing_word_answer'] = result_mising_word[1]
 
     df.to_csv('df_english.csv', index=False)
-    
+    #st.write(
     return df
 
 
@@ -250,7 +250,7 @@ tasks = df[start_index:end_index]
 
 # Вывод упражнений на текущей странице
 st.subheader(f"Page {page}")
-df.head()
+st.write(df.head())
 for _, task in tasks.iterrows():    
     
     verb_tenses_options = task['verb_tenses_options']
