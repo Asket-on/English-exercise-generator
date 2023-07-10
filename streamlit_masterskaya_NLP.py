@@ -60,7 +60,7 @@ def df_creation(file_contents):
         
         noun_chunks_options = list(set(chunk.root.dep_ for chunk in noun_chunks))
         noun_chunks_selected = selected_noun.text
-        noun_chunks_answer = selected_noun.root.dep_
+        noun_chunks_answer = spacy.explain(selected_noun.root.dep_)
         return pd.Series([noun_chunks_selected, noun_chunks_options, noun_chunks_answer])  
 
     def is_eligible_sentence(sentence):
