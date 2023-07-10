@@ -157,7 +157,9 @@ if uploaded_file is not None:
     # To read file as string:
     string_data = stringio.read()
     #st.write('string_data', string_data)
-
+else:
+  st.warning('Please choose a file.')
+  st.stop()
 
 start_time = time.time()
 @st.cache_data
