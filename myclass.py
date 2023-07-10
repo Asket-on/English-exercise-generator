@@ -30,7 +30,7 @@ class EnglishAssignmentGenerator:
             
             # Get the verb's tense options and create a sentence with a blank for the verb
             verb_tenses_answer = verb.text
-            verb_tenses_options = [inflection for inflection in getAllInflections(verb.text, 'VB')]
+            verb_tenses_options = [inflection for inflection in getAllInflections(verb.text, 'V')]
             verb_tenses_sent = sentence.replace(verb.text, '_____')
 
             return pd.Series([verb_tenses_sent, verb_tenses_options, verb_tenses_answer])
