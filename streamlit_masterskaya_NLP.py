@@ -18,7 +18,8 @@ if uploaded_file is not None:
     #st.write(stringio)
     # To read file as string:
     string_data = stringio.read()
-    #st.write(string_data)
+    st.write('string_data', string_data)
+
 
 start_time = time.time()
 @st.cache_data
