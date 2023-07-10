@@ -95,7 +95,7 @@ running_time = round(end_time - start_time, 1)
 
 # Display the running time in Streamlit
 st.write("Running time:", running_time, "seconds")
-
+df
 num_pages = len(df) // sentences_per_page
 count_key = 0
 task_total = 0
@@ -108,7 +108,7 @@ end_index = (page + 1) * sentences_per_page
 
 # Получение упражнений для текущей страницы
 tasks = df[start_index:end_index]
-df
+
 # Вывод упражнений на текущей странице
 st.subheader(f"Page {page}")
 
