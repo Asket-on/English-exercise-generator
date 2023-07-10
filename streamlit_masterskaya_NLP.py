@@ -10,7 +10,7 @@ from io import StringIO
 
 
 
-
+import spacy
 import en_core_web_sm
 import pyinflect
 from sentence_splitter import SentenceSplitter, split_text_into_sentences
