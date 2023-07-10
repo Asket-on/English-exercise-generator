@@ -7,6 +7,7 @@ from sentence_splitter import SentenceSplitter, split_text_into_sentences
 import nltk
 from nltk.corpus import wordnet
 
+nltk.download('wordnet')
 nlp = en_core_web_sm.load()
 
 class EnglishAssignmentGenerator:
