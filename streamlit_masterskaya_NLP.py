@@ -58,7 +58,7 @@ def df_creation(file_contents):
         
         selected_noun = random.choice(noun_chunks)
         
-        noun_chunks_options = list(set(chunk.root.dep_ for chunk in noun_chunks))
+        noun_chunks_options = list(set(spacy.explain(chunk.root.dep_) for chunk in noun_chunks))
         noun_chunks_selected = selected_noun.text
         noun_chunks_answer = spacy.explain(selected_noun.root.dep_)
         return pd.Series([noun_chunks_selected, noun_chunks_options, noun_chunks_answer])  
