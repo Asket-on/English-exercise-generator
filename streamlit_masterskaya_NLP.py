@@ -267,7 +267,7 @@ for _, task in tasks.iterrows():
         'select_word_verbs' if len(verb_tenses_options) > 0 else None,
         'select_random_noun_phrase' if len(noun_chunks_options) > 0 else None,
         'select_sentences' if len(generate_sentences) > 0 else None,
-        'write_missing_word' if missing_word_answer != "0" else None
+        'write_missing_word' if missing_word_answer != "0" or missing_word_answer != 0 else None
     ]
 
     if selected_exercises[0] == 'All':
