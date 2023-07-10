@@ -99,7 +99,7 @@ tasks = df[start_index:end_index]
 
 # Display exercises on the current page
 st.subheader(f"Page {page}")
-st.write(df.head())
+
 for _, task in tasks.iterrows():    
     
     verb_tenses_options = task['verb_tenses_options']
