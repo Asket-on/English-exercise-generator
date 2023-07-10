@@ -12,7 +12,7 @@ from io import StringIO
 
 
 import en_core_web_sm
-from pyinflect import getAllInflections
+import pyinflect
 from sentence_splitter import SentenceSplitter, split_text_into_sentences
 import nltk
 from nltk.corpus import wordnet
@@ -42,7 +42,7 @@ def df_creation(file_contents):
         
         # Get the verb's tense options and create a sentence with a blank for the verb
         verb_tenses_answer = verb.text
-        verb_tenses_options = [inflection for inflection in getAllInflections(verb.text, 'V')]
+        verb_tenses_options = [verb._.inflect('VBP'), verb._.inflect('VBZ'), verb._.inflect('VBG'), verb._.inflect('VBD')]
         verb_tenses_sent = sentence.replace(verb.text, '_____')
 
         return pd.Series([verb_tenses_sent, verb_tenses_options, verb_tenses_answer])
