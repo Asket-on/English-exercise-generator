@@ -5,7 +5,7 @@ import time
 import ast
 import random
 from io import StringIO
-from myclass import EnglishAssignmentGenerator
+from english_generator import EnglishAssignmentGenerator
 
 random.seed(123)
 
@@ -213,4 +213,3 @@ for _, task in tasks.iterrows():
 if task_total == count_key:
     st.success('Success!')    
 
-st.button("Re-run")
