@@ -9,7 +9,24 @@ from english_generator import EnglishAssignmentGenerator
 
 random.seed(123)
 
-uploaded_file = st.file_uploader("Choose a file")
+# Sidebar
+selected_exercises = st.sidebar.checkbox("All", value=True)
+
+if selected_exercises:
+    selected_exercises = list(exercise_options.keys())[1:]  # Получить все ключи, кроме 'All'
+else:
+    for exercise in exercise_options:
+        if exercise != 'All':
+            exercise_options[exercise] = st.sidebar.checkbox(exercise)
+            selected_exercises = [exercise for exercise, selected in exercise_options.items() if selected]
+
+# Split exercises into pages
+sentences_per_page  = st.sidebar.slider(
+    'Select count sentences',
+    5, 50, 10)
+
+
+uploaded_file = st.file_uploader("select file in txt format:")
 if uploaded_file is not None:
     # To convert to a string based IO:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
@@ -60,22 +77,6 @@ exercise_options = {
     'select_sentences': False,
     'write_missing_word': False
 }
-
-# Sidebar
-selected_exercises = st.sidebar.checkbox("All", value=True)
-
-if selected_exercises:
-    selected_exercises = list(exercise_options.keys())[1:]  # Получить все ключи, кроме 'All'
-else:
-    for exercise in exercise_options:
-        if exercise != 'All':
-            exercise_options[exercise] = st.sidebar.checkbox(exercise)
-            selected_exercises = [exercise for exercise, selected in exercise_options.items() if selected]
-
-# Split exercises into pages
-sentences_per_page  = st.sidebar.slider(
-    'Select count sentences',
-    5, 50, 10)
 
 df = transform(string_data)
 end_time = time.time()
