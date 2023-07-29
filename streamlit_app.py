@@ -12,7 +12,7 @@ random.seed(123)
 st.header('English exercise generator')
 '---'
 # Add a checkbox to the sidebar:
-st.sidebar.write("Выберите тип упражнения")
+st.sidebar.write("Choose the type of exercise:")
 
 exercise_options = {
     'All': False,
