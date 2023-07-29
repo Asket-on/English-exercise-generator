@@ -9,6 +9,19 @@ from english_generator import EnglishAssignmentGenerator
 
 random.seed(123)
 
+st.header('English exercise generator')
+'---'
+# Add a checkbox to the sidebar:
+st.sidebar.write("Выберите тип упражнения")
+
+exercise_options = {
+    'All': False,
+    'select_word_verbs': False,
+    'select_random_noun_phrase': False,
+    'select_sentences': False,
+    'write_missing_word': False
+}
+
 # Sidebar
 selected_exercises = st.sidebar.checkbox("All", value=True)
 
@@ -64,19 +77,6 @@ def shuffle_string(text):
 
     shuffled_text = ' '.join(shuffled_words)    
     return shuffled_text
-
-st.header('English exercise generator')
-'---'
-# Add a checkbox to the sidebar:
-st.sidebar.write("Выберите тип упражнения")
-
-exercise_options = {
-    'All': False,
-    'select_word_verbs': False,
-    'select_random_noun_phrase': False,
-    'select_sentences': False,
-    'write_missing_word': False
-}
 
 df = transform(string_data)
 end_time = time.time()
